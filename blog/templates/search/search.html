@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load highlight %}
+{% load staticfiles %}
+
+{% block main %}
+    {% if query %}
+        <div class="row">
+        <div class="col-md-12">
+            <!-- Big post section -->
+            {% for result in page.object_list %}
+            <div class="post-item big-post">
+
+                <h2 class="post-title"><a href="{{ result.object.get_absolute_url }}" class="post-title">{{ result.object.title }}</a></h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">{{ result.object.create_time }}</li>
+                    <li class="breadcrumb-item"> By <a href="#" class="admin">{{ result.object.author }}</a></li>
+                    <li class="breadcrumb-item">In <a href="#" class="fashion">{{ result.object.category }} </a></li>
+                    <li class="breadcrumb-item">({{ result.object.comment_set.count }}) <a href="{{ result.object.get_absolute_url }}#comment-list">评论</a></li>
+                    <li class="breadcrumb-item">({{ result.object.views }}) <a href="{{ result.object.get_absolute_url }}">阅读</a></li>
+                </ol>
+                <h5>
+                    {% highlight result.object.content with query %}
+                </h5>
+                <a href="{{ result.object.get_absolute_url }}" class="continue-read">继续阅读</a>
+            </div>
+            {% empty %}
+                没有搜索到你想要的结果！
+            {% endfor %}
+            <!-- End Big post section -->
+        </div>
+    </div>
+    {% endif %}
+{% endblock main %}

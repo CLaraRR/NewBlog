@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+          <div class="contct-sec">
+              <h1 class="post-title">联系</h1>
+              <h6>如果您对我的博客有任何意见或建议，可以填写在下方表格</h6>
+
+              <div class="form">
+                <form action="{% url 'contacts:contact_post' %}" method="post">
+                  {% csrf_token %}
+                  <ul>
+                      <li>
+                          <input type="text" name="name" placeholder="名字" required>
+                      </li>
+                      <li>
+                          <input type="email" placeholder="电子邮件" name="email" required>
+                      </li>
+                      <li>
+                         <textarea type="text" placeholder="意见/建议" name="text" required></textarea>
+                      </li>
+                      <li>
+                        <input type="submit" class="btn submit-btn" value="OK，我要提交">
+                      </li>
+                  </ul>
+                </form>
+              </div>
+          </div>
+        </div>
+    </div>
+{% endblock main %}

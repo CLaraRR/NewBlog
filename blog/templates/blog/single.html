@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="post-item big-post">
+                <h1 class="post-title"><a href="{{ post.get_absolute_url }}" class="post-title">{{ post.title }}</a></h1>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">{{ post.create_time }}</li>
+                    <li class="breadcrumb-item"> By <a href="#" class="admin">{{ post.author }}</a></li>
+                    <li class="breadcrumb-item">In <a href="#" class="fashion">{{ post.category }} </a></li>
+                    <li class="breadcrumb-item">({{ post.comment_set.count }}) <a href="{{ post.get_absolute_url }}#comment-list">评论</a></li>
+                    <li class="breadcrumb-item">({{ post.views }}) <a href="{{ post.get_absolute_url }}">阅读</a></li>
+                </ol>
+                <p>{{ post.content|safe }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="comment-area" id="comment-list">
+                <h1><a>发表评论</a></h1>
+                <form action="{% url 'comments:post_comment' post.id %}" method="post" class="comment-form">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="{{ form.name.id_for_label }}">名字：</label>
+                        {{ form.name }}
+                        {{ form.name.errors }}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="{{ form.email.id_for_label }}">邮箱：</label>
+                        {{ form.email }}
+                        {{ form.email.errors }}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="{{ form.url.id_for_label }}">网址：</label>
+                        {{ form.url }}
+                        {{ form.url.errors }}
+                    </div>
+                    <div class="col-md-12">
+                        <label for="{{ form.text.id_for_label }}">评论：</label>
+                        {{ form.text }}
+                        {{ form.text.errors }}
+                        <button type="submit" class="comment-btn">发表</button>
+                    </div>
+                </div>    <!-- row -->
+                </form>
+            </div>
+        </div>
+    </div>
+    <br/><br/><br/>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="comment-area" >
+                <h1><a>评论列表，共 <span>{{ post.comment_set.count }}</span> 条评论</a></h1>
+                <ul class="comment-list list-unstyled">
+                    {% for comment in comment_list %}
+                        <li class="comment-item">
+                            <span class="nickname">{{ comment.name }}</span>
+                            <time class="submit-date" datetime="{{ comment.create_time }}">{{ comment.create_time }}</time>
+                            <div class="text">
+                                {{ comment.text }}
+                            </div>
+                        </li>
+                    {% empty %}
+                        暂无评论！
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+{% endblock main %}
+
+{% block toc %}
+    <div class="category-sec">
+        <h3 class="toc">文章目录</h3>
+        {{ post.toc|safe }}
+    </div>
+{% endblock toc %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block main %}
+    {% if posts.count == 1 %}
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Big post section -->
+{#                {% for post in posts %}#}
+
+                <div class="post-item big-post">
+                    <h2 class="post-title"><a href="{{ posts.0.get_absolute_url }}" class="post-title">{{ posts.0.title }}</a></h2>
+                    <img src="{% static 'blog/images/post1.jpg' %}" alt="post-img">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">{{ posts.0.create_time }}</li>
+                        <li class="breadcrumb-item"> By <a href="#" class="admin">{{ posts.0.author }}</a></li>
+                        <li class="breadcrumb-item">In <a href="#" class="fashion">{{ posts.0.category }} </a></li>
+                        <li class="breadcrumb-item">({{ posts.0.comment_set.count }}) <a href="{{ posts.0.get_absolute_url }}#comment-list">评论</a></li>
+                        <li class="breadcrumb-item">({{ posts.0.views }}) <a href="{{ posts.0.get_absolute_url }}">阅读</a></li>
+                    </ol>
+                    <h5>{{ posts.0.summary }}</h5>
+                    <a href="{{ posts.0.get_absolute_url }}" class="continue-read">继续阅读</a>
+                </div>
+{#                {% endfor %}#}
+                <!-- End Big post section -->
+            </div>
+        </div>
+    {% else %}
+        <div class="row small-post-sec">
+            {% for post in posts %}
+                <div class="col-md-6 col-sm-6">
+                    <div class="post-item small-post">
+                        <img src="{% static 'blog/images/spost2.jpg' %}" alt="post-img">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">{{ post.create_time }}</li>
+                            <li class="breadcrumb-item"> By <a href="#" class="">{{ post.author }}</a></li>
+                        </ol>
+                        <h2><a href="{{ post.get_absolute_url }}" class="post-title">{{ post.title }}</a></h2>
+                        <h5>
+                            {{ post.summary }}
+                    </h5>
+                        <a href="{{ post.get_absolute_url }}" class="continue-read">继续阅读</a>
+                    </div>
+                </div>
+                {% empty %}
+                暂无文章！
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock main %}

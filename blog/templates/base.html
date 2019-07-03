@@ -1,0 +1,173 @@
+{% load  staticfiles %}
+{% load blog_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Clara的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#03a6f3">
+    <link rel="stylesheet" href="{% static 'blog/css/bootstrap.min.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Old+Standard+TT:400,400i,700|Raleway:300,400,500,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'blog/css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/mystyle.css' %}">
+
+    <style>
+        span.highlighted{
+            color: red;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <div class="header-top"></div>
+        <div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+            </button>
+            <div class="collapse navbar-collapse">
+                <div class="nav-sec">
+                    <div class="container">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'blog:index' %}">首页</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'blog:blog' %}">博客</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'blog:about' %}">关于</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'blog:contact' %}">联系</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 align-self-center sharing-sec">
+                    </div>
+                    <div class="col-md-4 align-self-center">
+                        <div class="logo-sec">
+{#                            <img src="{% static 'blog/images/logo.png' %}" alt="logo">#}
+                            <h1>Clara的博客</h1>
+                        </div>
+                    </div>
+                    <div class="col-md-4 align-self-center">
+                        <div class="search-sec">
+                            <div class="search">
+                                <form action="{% url 'haystack_search' %}" method="get">
+                                    <input type="text" placeholder="搜索" name="q" required>
+                                    <button type="submit"><span class="ion-ios-search-strong"></span></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                </div>
+    </header>
+
+    <!-- Main body sec -->
+
+    <section class="main-sec">
+        <div class="container">
+            <div class="standard-post-format">
+                {% block main %}
+                {% endblock %}
+            </div>
+            <div class="tlinks">Collect from <a href="http://www.cssmoban.com/" >网站建设</a></div>
+
+            <!-- Aside section start -->
+            <aside>
+                {% block toc %}
+                {% endblock toc %}
+                <div class="category-sec">
+                    <h3 class="category">分类</h3>
+                    {% get_categories as category_list %}
+                    <ul>
+                        {% for category in category_list %}
+                        <li>
+                            <a href="{% url 'blog:category' category.pk %}" class="active">{{ category.name }}</a>
+                        </li>
+                        {% empty %}
+                        暂无分类！
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="category-sec">
+                    <h3 class="archive">归档</h3>
+                    {% archives as date_list %}
+                    <ul>
+                        {% for date in date_list %}
+                        <li>
+                            <a href="{% url 'blog:archive' date.year date.month %}" class="active">{{ date.year }} 年 {{ date.month }} 月</a>
+                        </li>
+                        {% empty %}
+                        暂无归档！
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="most-read">
+                    <h3 class="mostread">最多浏览</h3>
+                    {% get_most_read_posts as most_read_post_list %}
+                    <ul>
+                        {% for post in most_read_post_list %}
+                            <li>
+                                <figure style="background:url({% static 'blog/images/rsmall.jpg' %})no-repeat;"></figure>
+                                <div class="post-content">
+                                    <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+                                    <h5>{{ post.create_time }}</h5>
+                                    <span>By <a href="#">{{ post.author }}</a></span>
+                                    <span>阅读 <a href="#">{{ post.views }}</a></span>
+                                </div>
+                            </li>
+                            {% empty %}
+                            暂无文章！
+                        {% endfor %}
+                    </ul>
+                </div>
+<!-- Tag section -->
+                <div class="tag-sec">
+                    <h3 class="tags">标签云</h3>
+                    {% get_tags as tag_list %}
+                    <ul>
+                        {% for tag in tag_list %}
+                            <li>
+                                <a href="{% url 'blog:tag' tag.pk %}" >{{ tag.name }}</a>
+                            </li>
+                            {% empty %}
+                            暂无标签！
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="rss" align="center">
+                    <a href="{% url 'rss' %}"><span class="ion-social-rss-outline"></span> RSS 订阅</a>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <h5>(C) 2019. All Rights Reserved. Clara的博客</h5>
+        </div>
+    </footer>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/custom.js"></script>
+
+</body>
+
+</html>

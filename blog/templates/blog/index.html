@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load blog_tags %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Big post section -->
+            {% get_recent_post as recent_post %}
+            {% for post in recent_post %}
+            <div class="post-item big-post">
+
+                <h2 class="post-title">Latest: <a href="{{ post.get_absolute_url }}" class="post-title">{{ post.title }}</a></h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">{{ post.create_time }}</li>
+                    <li class="breadcrumb-item"> By <a href="#" class="admin">{{ post.author }}</a></li>
+                    <li class="breadcrumb-item">In <a href="#" class="fashion">{{ post.category }} </a></li>
+                    <li class="breadcrumb-item">({{ post.comment_set.count }}) <a href="{{ post.get_absolute_url }}#comment-list">评论</a></li>
+                    <li class="breadcrumb-item">({{ post.views }}) <a href="{{ post.get_absolute_url }}">阅读</a></li>
+                </ol>
+                <h5>{{ post.summary }}</h5>
+                <a href="{{ post.get_absolute_url }}" class="continue-read">继续阅读</a>
+            </div>
+            {% endfor %}
+            <!-- End Big post section -->
+        </div>
+    </div>
+
+
+    <div class="row small-post-sec">
+        {% for post in posts %}
+            <div class="col-md-6 col-sm-6">
+                <div class="post-item small-post">
+                    <h2 class="post-title-h2"><a href="{{ post.get_absolute_url }}" >{{ post.title }}</a></h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">{{ post.create_time }}</li>
+                        <li class="breadcrumb-item"> By <a href="#" class="">{{ post.author }}</a></li>
+                    </ol>
+                    <h5>
+                        {{ post.summary }}
+                </h5>
+                    <a href="{{ post.get_absolute_url }}" class="continue-read">继续阅读</a>
+                </div>
+            </div>
+            {% empty %}
+            暂无文章！
+        {% endfor %}
+    </div>
+    <div class="button-sec">
+        <button class="btn load-more">load more</button>
+    </div>
+{% endblock %}

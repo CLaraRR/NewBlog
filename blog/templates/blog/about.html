@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="post-item big-post">
+                <h1 class="post-title">关于</h1>
+                <img src="{% static 'blog/images/post1.jpg' %}" alt="post-img">
+
+                    <p>
+                    欢迎来到我的博客！这个博客使用HTML5和CSS编写的网页作为前端，后台用Python和Django实现，数据库是MySQL。<br/><br/>
+                    对实现感兴趣的同学可以访问该项目的github链接: <a href="https://github.com/CLaraRR/MyBlog" target="_blank">https://github.com/CLaraRR/MyBlog</a><br/><br/>
+                    我的github: <a href="https://github.com/CLaraRR" target="_blank">https://github.com/CLaraRR</a><br/><br/>
+                    我的CSDN博客：<a href="https://blog.csdn.net/qq_33648725" target="_blank">https://blog.csdn.net/qq_33648725</a><br/><br/>
+                    </p>
+
+            </div>
+        </div>
+    </div>
+{% endblock main %}

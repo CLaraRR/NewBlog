@@ -1,0 +1,35 @@
+p
+{
+    font-family:"Times New Roman", Times, serif;
+    text-align: left;
+
+}
+
+h1,h2,h3,h4,h5{
+    text-align: left;
+}
+
+
+
+
+
+.post-title{
+    text-align: center;
+}
+
+h2.post-title-h2{
+    text-align: center;
+    font-size: medium;
+}
+
+.post-title:hover{
+    color: red;
+}
+
+.category, .tags, .archive, .toc, .mostread,.rss{
+    text-align: center;
+}
+
+.codehilite{
+    text-align: left;
+}
